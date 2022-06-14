@@ -58,7 +58,7 @@
 # 6. Соберите урожай
 
 class Tomato:
-    # Статическое свойство cтадии созревания помидора
+    # Статическое свойство, cтадии созревания помидора
     states = {0: 'зародыш', 1: 'рост', 2: 'цветение', 3: 'зеленый_помидор', 4: 'красный_помидор'}
 
     def __init__(self, index):
@@ -69,27 +69,28 @@ class Tomato:
     def grow(self):
         if self._state < 4:
             self._state += 1
-        print(f'Tomato {self._index} is {Tomato.states[self._state]}')
+        print(f'Tomato {self._index} перешло в следующую стадию: {Tomato.states[self._state]}')
 
     # Проверка что томат созрел
-    def is_ripe():
+    def is_ripe(self):
         if self._state == 4:
-            return 'Помидор созрел'
+            print('Помидоры созрели. Урожай собран!!!')
         else:
-            return 'Помидор не прошел все стадии созревания'
+            print('Еще рано!!! Помидоры еще зеленные')
 
 class TomatoBush:
     def __init__(self, amt):
-        self.tomatoes = [Tomato(index) for index in range(0, amt)]
+        self.tomatoes = [Tomato(index) for index in range(1, amt)]
 
-    def grow_all():
+    def grow_all(self):
         for tomato in self.tomatoes:
             tomato.grow()
 
-    def all_are_ripe():
-        return all([tomato.is_ripe() for tomato in self.tomatoes])
+    def all_are_ripe(self):
+        for tomato in self.tomatoes:
+            tomato.is_ripe()
 
-    def give_away_all():
+    def give_away_all(self):
         self.tomatoes = []
 
 class Gardener:
@@ -97,15 +98,33 @@ class Gardener:
         self.name = name
         self._plant = plant
 
-    def work():
-        print('')
+    def work(self):
+        print(self.name,'работает....')
+        self._plant.grow_all()
+        print(self.name,'закончил работу')
 
-    def harvest():
-        print('')
+    def harvest(self):
+        print(self.name, 'проверяет все ли плоды созрели')
+        print('Проверка завершена')
+        if self._plant.all_are_ripe():
+            return self._plant.give_away_all()
+
+
     @staticmethod
     def knowledge_base():
-        print('')
+        print('''Плод томата в среднем растет 42 дня. 
+Время сбора урожая наступает в конце вегетационного периода, 
+когда помидоры находятся на зрелой стадии, обычно в конце лета.''')
 
+Gardener.knowledge_base()
+plant_t_bush = TomatoBush(2)
+gardener = Gardener('Adrian', plant_t_bush)
+gardener.work()
+gardener.work()
+gardener.work()
+gardener.harvest()
+gardener.work()
+gardener.harvest()
 
 
 
